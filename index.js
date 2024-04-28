@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const port = 3000;
 const summarizeText = require('./summarize.js');
+const classifyText = require('./classify.js');
 // Parses JSON bodies (as sent by API clients)
 app.use(express.json());
 

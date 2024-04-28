@@ -124,7 +124,7 @@ textarea {
   border: none;
   padding: 10px 20px;
   border-radius: 4px;
-  cursor: pointer;
+  cursor: not-allowed;
   margin-bottom: -5px;
 }
 

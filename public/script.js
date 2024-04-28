@@ -18,6 +18,7 @@ function verifyTextLength(e) {
   if (textarea.value.length > 200 && textarea.value.length < 100000) {
     // Enable the button when text area has value.
     submitButton.disabled = false;
+    classifyButton.disabled = false;
   } else {
     // Disable the button when text area is empty.
     submitButton.disabled = true;
@@ -69,4 +70,24 @@ function classifyText(e){
   classifyButton.classList.add("submit-button--loading");
   const text_to_classify=summarizedTextArea;
   var myHeaders = new Headers();
-}
+  myHeaders.append("Content-Type", "application/json");
+  var raw = JSON.stringify({
+    "text_to_summarize": text_to_classify
+  });
+  var requestOptions = {
+    method: 'POST',
+    headers: myHeaders,
+    body: raw,
+    redirect: 'follow'
+};
+  fetch('/classify', requestOptions)
+    .then(response => response.text()) // Response will be summarized text
+    .then(summary => {
+      // Do something with the summary response from the back end API!
+
+      // Update the output text area with new summary
+      summarizedTextArea.value = summary;
+
+      // Stop the spinning loading animation
+      submitButton.classList.remove("submit-button--loading");
+    })
