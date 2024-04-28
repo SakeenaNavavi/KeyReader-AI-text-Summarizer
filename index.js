@@ -23,6 +23,17 @@ app.post('/summarize', (req, res) => {
       console.log(error.message);
     });
 });
+
+app.post('/classify',(req,res)=>{
+  const text=req.body.text_to_classify;
+  classifyText(text)
+  .then(response=>{
+    res.send(response);
+  })
+  .catch(error=>{
+    console.log(error.message);
+  })
+})
 // Start the server
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}/`);

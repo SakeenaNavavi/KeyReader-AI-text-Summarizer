@@ -1,11 +1,14 @@
 const textArea = document.getElementById("text_to_summarize");
 const submitButton = document.getElementById("submit-button");
 const summarizedTextArea = document.getElementById("summary");
+const classifyButton = document.getElementById("classify-button");
 
 submitButton.disabled = true;
+classifyButton.disabled=true;
 
 textArea.addEventListener("input", verifyTextLength);
 submitButton.addEventListener("click", submitData);
+classifyButton.addEventListener("click", classifyText);
 
 function verifyTextLength(e) {
  // The e.target property gives us the HTML element that triggered the event, which in this case is the textarea. We save this to a variable called 'textarea'
@@ -59,4 +62,11 @@ function submitData(e) {
     .catch(error => {
       console.log(error.message);
     });
+}
+
+function classifyText(e){
+
+  classifyButton.classList.add("submit-button--loading");
+  const text_to_classify=summarizedTextArea;
+  var myHeaders = new Headers();
 }
