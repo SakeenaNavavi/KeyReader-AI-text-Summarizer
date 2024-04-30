@@ -91,3 +91,4 @@ function classifyText(e){
       // Stop the spinning loading animation
       submitButton.classList.remove("submit-button--loading");
     })
+}
