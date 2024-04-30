@@ -65,30 +65,47 @@ function submitData(e) {
     });
 }
 
-function classifyText(e){
-
+async function classifyText(e) {
   classifyButton.classList.add("submit-button--loading");
-  const text_to_classify=summarizedTextArea;
-  var myHeaders = new Headers();
-  myHeaders.append("Content-Type", "application/json");
-  var raw = JSON.stringify({
-    "text_to_summarize": text_to_classify
+  const textToClassify = textArea.value;
+
+  try {
+    const response = await fetch('/classify', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ "text_to_classify": textToClassify }),
+    });
+
+    const results = await response.json();
+
+    displayEmotionClassification(results);
+
+    // Stop the spinning loading animation
+    classifyButton.classList.remove("submit-button--loading");
+  } catch (error) {
+    console.error('Error classifying text:', error);
+    // Display an error message on the webpage
+    displayErrorMessage('An error occurred while classifying the text.');
+    classifyButton.classList.remove("submit-button--loading");
+  }
+}
+
+function displayEmotionClassification(results) {
+  // Clear any previous results
+  const resultsContainer = document.getElementById('results');
+  resultsContainer.innerHTML = '';
+
+  // Loop through the results and create HTML elements to display them
+  results.forEach(result => {
+    const resultElement = document.createElement('div');
+    resultElement.textContent = `${result.label}: ${(result.score * 100).toFixed(2)}%`;
+    resultsContainer.appendChild(resultElement);
   });
-  var requestOptions = {
-    method: 'POST',
-    headers: myHeaders,
-    body: raw,
-    redirect: 'follow'
-};
-  fetch('/classify', requestOptions)
-    .then(response => response.text()) // Response will be summarized text
-    .then(summary => {
-      // Do something with the summary response from the back end API!
+}
 
-      // Update the output text area with new summary
-      summarizedTextArea.value = summary;
-
-      // Stop the spinning loading animation
-      submitButton.classList.remove("submit-button--loading");
-    })
+function displayErrorMessage(message) {
+  const errorContainer = document.getElementById('error');
+  errorContainer.textContent = message;
 }
