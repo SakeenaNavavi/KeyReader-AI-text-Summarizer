@@ -107,17 +107,31 @@ function displayEmotionClassification(results) {
   if (resultsContainer) {
     // Clear any previous results
     resultsContainer.innerHTML = '';
-
-    // Loop through the results and create HTML elements to display them
-    results.forEach(result => {
+    console.log(results);
+    // Display the top 4 emotions
+    for (let i = 0; i < Math.min(4, results.length); i++) {
+      const result = results[i];
       const resultElement = document.createElement('div');
       resultElement.textContent = `${result.label}: ${(result.score * 100).toFixed(2)}%`;
       resultsContainer.appendChild(resultElement);
-    });
+      console.log(results);
+    }
+
+    // Display the "Other" category if there are more than 4 emotions
+    if (results.length > 4) {
+      let otherScore = 0;
+      for (let i = 4; i < results.length; i++) {
+        otherScore += results[i].score;
+      }
+      const otherElement = document.createElement('div');
+      otherElement.textContent = `Other: ${(otherScore * 100).toFixed(2)}%`;
+      resultsContainer.appendChild(otherElement);
+    }
   } else {
     console.error('Results container element not found.');
   }
 }
+
 
 function displayErrorMessage(message) {
   const errorContainer = document.getElementById('error');
