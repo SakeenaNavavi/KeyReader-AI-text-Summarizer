@@ -107,30 +107,35 @@ function displayEmotionClassification(results) {
   if (resultsContainer) {
     // Clear any previous results
     resultsContainer.innerHTML = '';
-    console.log(results);
-    // Display the top 4 emotions
-    for (let i = 0; i < Math.min(4, results.length); i++) {
-      const result = results[i];
-      const resultElement = document.createElement('div');
-      resultElement.textContent = `${result.label}: ${(result.score * 100).toFixed(2)}%`;
-      resultsContainer.appendChild(resultElement);
-      console.log(results);
-    }
 
-    // Display the "Other" category if there are more than 4 emotions
-    if (results.length > 4) {
-      let otherScore = 0;
-      for (let i = 4; i < results.length; i++) {
-        otherScore += results[i].score;
+    // Check if results[0] exists to prevent errors
+    if (results[0]) {
+      // Display the top 4 emotions
+      for (let i = 0; i < Math.min(4, results[0].length); i++) {
+        const result = results[0][i];
+        const resultElement = document.createElement('div');
+        resultElement.textContent = `${result.label}: ${(result.score * 100).toFixed(2)}%`;
+        resultsContainer.appendChild(resultElement);
       }
-      const otherElement = document.createElement('div');
-      otherElement.textContent = `Other: ${(otherScore * 100).toFixed(2)}%`;
-      resultsContainer.appendChild(otherElement);
+
+      // Display the "Other" category if there are more than 4 emotions
+      if (results[0].length > 4) {
+        let otherScore = 0;
+        for (let i = 4; i < results[0].length; i++) {
+          otherScore += results[0][i].score;
+        }
+        const otherElement = document.createElement('div');
+        otherElement.textContent = `Other: ${(otherScore * 100).toFixed(2)}%`;
+        resultsContainer.appendChild(otherElement);
+      }
+    } else {
+      console.error('No results found.');
     }
   } else {
     console.error('Results container element not found.');
   }
 }
+
 
 
 function displayErrorMessage(message) {
