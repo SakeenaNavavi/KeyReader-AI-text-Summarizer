@@ -117,5 +117,9 @@ function displayEmotionClassification(results) {
 
 function displayErrorMessage(message) {
   const errorContainer = document.getElementById('error');
-  errorContainer.textContent = message;
+  if (errorContainer) {
+    errorContainer.textContent = message;
+  } else {
+    console.error('Error container element not found.');
+  }
 }
