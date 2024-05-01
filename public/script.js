@@ -69,6 +69,11 @@ async function classifyText(e) {
   classifyButton.classList.add("submit-button--loading");
   const textToClassify = textArea.value;
 
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => {
+    controller.abort();
+  }, 10000); // 10 seconds timeout
+
   try {
     const response = await fetch('/classify', {
       method: 'POST',
@@ -76,21 +81,26 @@ async function classifyText(e) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ "text_to_classify": textToClassify }),
+      signal: controller.signal,
     });
 
+    clearTimeout(timeoutId);
     const results = await response.json();
-
+    console.log(results);
     displayEmotionClassification(results);
-
-    // Stop the spinning loading animation
     classifyButton.classList.remove("submit-button--loading");
   } catch (error) {
-    console.error('Error classifying text:', error);
-    // Display an error message on the webpage
-    displayErrorMessage('An error occurred while classifying the text.');
+    if (error.name === 'AbortError') {
+      console.error('API request timed out');
+      displayErrorMessage('The API request timed out. Please try again later.');
+    } else {
+      console.error('Error classifying text:', error);
+      displayErrorMessage('An error occurred while classifying the text.');
+    }
     classifyButton.classList.remove("submit-button--loading");
   }
 }
+
 
 function displayEmotionClassification(results) {
   // Clear any previous results
