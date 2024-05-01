@@ -49,10 +49,9 @@ img {
 }
 
 body {
-  font-family: 'Roboto', sans-serif;
-  background-color: #1A5276 ;
-  padding: 20px;
-  text-align: center
+  font-family: 'Robot', sans-serif;
+  background-color: #1A5276;
+  text-align: center;
 }
 
 h1 {
@@ -76,7 +75,7 @@ p {
   flex-wrap: wrap;
   justify-content: center;
   margin: 0 auto;
-  padding: 20px;
+  
 }
 
 .text-box {
@@ -166,4 +165,16 @@ textarea {
 }
 .navbar-brand{
   font-weight:bold;
+}
+.results{
+  font-weight:bold;
+  text-align:left;
+  color:#4682B4;
+}
+.navbar {
+  margin-bottom: 20px;
+}
+
+.container {
+  margin-top: 20px;
 }
