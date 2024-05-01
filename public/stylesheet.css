@@ -165,6 +165,7 @@ textarea {
 }
 .navbar-brand{
   font-weight:bold;
+  color:white;
 }
 .results{
   font-weight:bold;
@@ -177,4 +178,7 @@ textarea {
 
 .container {
   margin-top: 20px;
+}
+.nav-link{
+  color:white;
 }
