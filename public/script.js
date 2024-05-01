@@ -103,16 +103,20 @@ async function classifyText(e) {
 
 
 function displayEmotionClassification(results) {
-  // Clear any previous results
   const resultsContainer = document.getElementById('results');
-  resultsContainer.innerHTML = '';
+  if (resultsContainer) {
+    // Clear any previous results
+    resultsContainer.innerHTML = '';
 
-  // Loop through the results and create HTML elements to display them
-  results.forEach(result => {
-    const resultElement = document.createElement('div');
-    resultElement.textContent = `${result.label}: ${(result.score * 100).toFixed(2)}%`;
-    resultsContainer.appendChild(resultElement);
-  });
+    // Loop through the results and create HTML elements to display them
+    results.forEach(result => {
+      const resultElement = document.createElement('div');
+      resultElement.textContent = `${result.label}: ${(result.score * 100).toFixed(2)}%`;
+      resultsContainer.appendChild(resultElement);
+    });
+  } else {
+    console.error('Results container element not found.');
+  }
 }
 
 function displayErrorMessage(message) {
